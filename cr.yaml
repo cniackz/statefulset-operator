@@ -3,5 +3,5 @@ kind: MyApp
 metadata:
   name: myapp-sample
 spec:
-  message: "Hello, Kubernetes Operator!"
+  message: "create"
 

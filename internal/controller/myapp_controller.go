@@ -64,6 +64,9 @@ func (r *MyAppReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 	// Print the message from the Custom Resource
 	log.Info("Received MyResource", "message", myapp.Spec.Message)
 
+    if "create" == myapp.Spec.Message {
+		log.Info("Yes, the message is create, hence we are going to create a statefulset")
+	}
 
 
 	// ... END OF ADDED LOGIC
