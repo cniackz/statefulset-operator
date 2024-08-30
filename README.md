@@ -47,3 +47,6 @@ make manifests
 make docker-build IMG=radical-123
 kind load docker-image docker.io/library/radical-123
 ```
+
+<img width="1840" alt="Screenshot 2024-08-30 at 11 07 55 AM" src="https://github.com/user-attachments/assets/b86b1d5c-8c5d-4039-8c76-cb84badda2a6">
+
