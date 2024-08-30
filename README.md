@@ -37,3 +37,13 @@ kubectl apply -k ~/statefulset-operator/config/crd
 kubectl apply -f ~/statefulset-operator/cr.yaml
 ```
 
+### Development:
+
+After each change run:
+
+```shell
+make generate
+make manifests
+make docker-build IMG=radical-123
+kind load docker-image docker.io/library/radical-123
+```
