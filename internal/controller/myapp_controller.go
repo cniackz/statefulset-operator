@@ -20,7 +20,9 @@ import (
 	"context"
 	"fmt"
 	"k8s.io/apimachinery/pkg/api/resource"
+	"k8s.io/client-go/rest"
 	secondlog "log"
+	"os"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/kubernetes"
@@ -50,6 +52,32 @@ func int32Ptr(i int32) *int32 {
 //+kubebuilder:rbac:groups=apps.example.com,resources=myapps/status,verbs=get;update;patch
 //+kubebuilder:rbac:groups=apps.example.com,resources=myapps/finalizers,verbs=update
 
+func createK8sClient() (*kubernetes.Clientset, error) {
+	var config *rest.Config
+	var err error
+
+	// Use in-cluster config if running inside a Kubernetes cluster
+	config, err = rest.InClusterConfig()
+	if err != nil {
+		// If not running in-cluster, fall back to default kubeconfig
+		kubeconfig := os.Getenv("KUBECONFIG")
+		// To test locally KUBECONFIG has to be set to "/Users/cniackz/.kube/config"
+		// kubeconfig := "/Users/cniackz/.kube/config"
+		config, err = clientcmd.BuildConfigFromFlags("", kubeconfig)
+		if err != nil {
+			return nil, fmt.Errorf("failed to create k8s client config: %w", err)
+		}
+	}
+
+	// Create the clientset
+	clientset, err := kubernetes.NewForConfig(config)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create k8s clientset: %w", err)
+	}
+
+	return clientset, nil
+}
+
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.
 // TODO(user): Modify the Reconcile function to compare the state specified by
@@ -62,17 +90,10 @@ func int32Ptr(i int32) *int32 {
 func (r *MyAppReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	_ = log.FromContext(ctx)
 
-	// Load the kubeconfig file to create a client
-	kubeconfig := "/Users/cniackz/.kube/config"
-	config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
-	if err != nil {
-		secondlog.Fatalf("Error building kubeconfig: %s", err.Error())
-	}
-
 	// Create a new Kubernetes client
-	clientset, err := kubernetes.NewForConfig(config)
+	clientset, err := createK8sClient()
 	if err != nil {
-		secondlog.Fatalf("Error creating Kubernetes client: %s", err.Error())
+		panic(err.Error())
 	}
 
 	// ... START OF ADDED LOGIC:
