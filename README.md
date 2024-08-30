@@ -48,10 +48,11 @@ make docker-build IMG=radical-123
 kind load docker-image docker.io/library/radical-123
 ```
 
-<img width="1840" alt="Screenshot 2024-08-30 at 11 07 55 AM" src="https://github.com/user-attachments/assets/b86b1d5c-8c5d-4039-8c76-cb84badda2a6">
+### Run/Debug Configuration:
+
+<img width="1840" alt="Screenshot 2024-08-30 at 11 41 57 AM" src="https://github.com/user-attachments/assets/414153b6-afee-4b34-9ee6-81c3387887c2">
 
 <img width="1840" alt="Screenshot 2024-08-30 at 11 09 41 AM" src="https://github.com/user-attachments/assets/f2029302-e2fd-48d4-b66b-1a75874441b1">
-
 
 <img width="1840" alt="Screenshot 2024-08-30 at 11 09 06 AM" src="https://github.com/user-attachments/assets/3898342a-d76e-4a5e-a504-8f9f5d40a229">
 
